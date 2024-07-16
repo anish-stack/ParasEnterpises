@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;  overflow-x: hidden;
+}
+
+@font-face {
+  font-family: 'fa-solid';
+  src: url('./font/fa-solid-900.ttf');
+}
+
+@font-face {
+  font-family: 'slick';
+  src: url('./font/slick-2.ttf');
+}
+
+@font-face {
+  font-family: 'slick-2';
+  src: url('./font/slick.ttf');
+}
+
+.slick {
+  font-family: slick;
+}
+
+.slick-2 {
+  font-family: slick-2;
+}
+
+.solid {
+  font-family: fa-solid;
+}
+/* Custom CSS to style the content */
+.content {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.content p {
+  margin-bottom: 1rem;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.content a {
+  color: #007bff;
+}
+
+.content table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+}
+
+.content th,
+.content td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.content th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.content code,
+.content pre {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875em;
+}
+
+.content pre {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow: auto;
+}
+
+.dropdowns {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease-out;
+}
+.group:hover .dropdowns {
+  transform: scaleY(1);
+}
+
+.montserrat-subrayada-regular {
+  font-family: "Montserrat Subrayada", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.montserrat-subrayada-bold {
+  font-family: "Montserrat Subrayada", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
