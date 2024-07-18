@@ -4,7 +4,7 @@ const uploadImages = require('../middlewares/Cloudinary');
 // Create category with image and name
 exports.CategoryCreate = async (req, res) => {
     try {
-        const file = req.file;
+        const file= req.file;
         const { name } = req.body;
 
         if (!file) {
@@ -149,6 +149,33 @@ exports.getAllCategories = async (req, res) => {
         res.status(200).json({
             success: true,
             categories
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(501).json({
+            success: false,
+            msg: "Internal Server Error"
+        });
+    }
+};
+
+// Get category by ID
+exports.getCategoryById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+
+        if (!category) {
+            return res.status(404).json({
+                success: false,
+                msg: "Category not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            category
         });
 
     } catch (error) {

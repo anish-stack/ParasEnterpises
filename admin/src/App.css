@@ -1,4 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+.allowed{
+    cursor: pointer;
+}
+.not-allowed{
+    cursor: not-allowed;
+}
+.circle-color{
+    height: 20px;
+    width: 100%;
+}
