@@ -1,76 +1,55 @@
-// Sidebar.js
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { cn } from '../../lib/utils'; // Assuming you have the cn function in the same directory
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import './Header.css'
 
-const Sidebar = () => {
-    const handleLogout = () => {
-        localStorage.removeItem('newDealToken')
-        window.location.reload()
-    }
-    return (
-        <>
+const Header = () => {
+  const [sidetoggle,setSideToggle] = useState(false)
 
-            <div className="flex h-screen">
-                <aside className="w-72 bg-gray-800 text-white lg:w-64 md:w-48 sm:w-40">
-                    <div className="p-4">
-                        <h1 className="text-xl font-semibold">Nai Deal Admin</h1>
-                    </div>
-                    <nav className="mt-4">
-                        <ul>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    Dashboard
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/Products" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    All Products
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/All-Shops" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    All Shops
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/All-categories" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    Categories
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/All-City" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    City
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/approve-post" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    Approve Post
-                                </NavLink>
-                            </li>
-
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/All-Payments-Details" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    Payments
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink to="/All-Packages" className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    Packages
-                                </NavLink>
-                            </li>
-                            <li className="p-2 hover:bg-gray-700">
-                                <NavLink onClick={handleLogout} className={({ isActive }) => cn("block px-4 py-2", isActive ? "bg-gray-700" : "")}>
-                                    Logout
-                                </NavLink>
-                            </li>
-                        </ul>
-                    </nav>
-                </aside>
-
+  const handletoggleBtn =()=>{
+    setSideToggle(!sidetoggle)
+  }
+  return (
+    <>
+      <header>
+        <div className="top-head">
+          <div className="right">
+            <h2>Paras Enterprises</h2>
+            <div className="bar" onClick={handletoggleBtn}>
+              <i class="fa-solid fa-bars"></i>
             </div>
-        </>
-    );
-};
+          </div>
+          <div className="left">
+            <a href="" target="_blank">
+              <i class="fa-solid fa-globe"></i>
+              Go To Website
+            </a>
 
-export default Sidebar;
+            <div className="logout">
+              Log Out <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+          </div>
+
+        </div>
+
+        <div className={`rightNav ${sidetoggle ? "active" : "" } `  }>
+          <ul>
+            <li><Link to="/dashboard" onClick={handletoggleBtn}> <i class="fa-solid fa-gauge"></i> Dashboard</Link></li>
+            <li><Link to="/all-category" onClick={handletoggleBtn}> <i class="fa-solid fa-tag"></i> Manage Category</Link></li>
+            <li><Link to="/all-products" onClick={handletoggleBtn}> <i class="fa-solid fa-layer-group"></i> Manage Product</Link></li>
+            <li><Link to="/all-tags" onClick={handletoggleBtn}> <i class="fa-solid fa-tag"></i> Manage Tags</Link></li>
+            <li><Link to="/all-banners" onClick={handletoggleBtn}> <i class="fa-regular fa-images"></i> Manage Banners</Link></li>
+            <li><Link to="/all-shop-banners" onClick={handletoggleBtn}> <i class="fa-brands fa-unsplash"></i> Manage Shop Banners</Link></li>
+            <li><Link to="/all-voucher" onClick={handletoggleBtn}> <i class="fa-brands fa-cc-discover"></i> Manage Voucher</Link></li>
+            <li><Link to="/all-users" onClick={handletoggleBtn}> <i class="fa-solid fa-user"></i> All Users</Link></li>
+            <li><Link to="/all-orders" onClick={handletoggleBtn}> <i class="fa-solid fa-truck-arrow-right"></i> Manage Orders</Link></li>
+            <button className='logout'>Log Out <i class="fa-solid fa-right-from-bracket"></i></button>
+
+          </ul>
+        </div>
+
+      </header>
+    </>
+  )
+}
+
+export default Header

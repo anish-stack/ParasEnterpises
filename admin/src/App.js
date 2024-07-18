@@ -1,17 +1,17 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Card from './components/Card/Card';
-import Sidebar from './components/header/Header';
-import CreateListing from './CreateListing';
-import Home from './Home/Home';
-import { Toaster } from 'react-hot-toast';
+import { BrowserRouter} from 'react-router-dom'
+import Dashboard from './Pages/Dashboard/Dashboard';
+import Home from './Components/Home/Home';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Home/>
-      <Toaster/>
-    </BrowserRouter>
+    <>
+        <BrowserRouter>
+          <Home/>
+          <ToastContainer/>
+        </BrowserRouter>
+    </>
   );
 }
 
