@@ -14,8 +14,9 @@ const AllProduct = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('https://api.swhealthcares.com/api/v1/get-all-product');
+            const res = await axios.get('http://localhost:7000/api/v1/get-all-product');
             const reverseData = res.data.data
+            console.log(res.data.data)
             const main = reverseData.reverse()
             setProduct(main)
             console.log(products)
@@ -48,7 +49,7 @@ const AllProduct = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`https://api.swhealthcares.com/api/v1/delete-product/${id}`);
+                    const res = await axios.delete(`http://localhost:7000/api/v1/delete-product/${id}`);
                     console.log(res.data);
                     toast.success("Product Deleted Successfully");
                     handleFetch();

@@ -14,7 +14,7 @@ const AllTags = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('https://api.swhealthcares.com/api/v1/get-all-tag');
+            const res = await axios.get('http://localhost:7000/api/v1/getAllTag');
             const reverseData = res.data.data
             const main = reverseData.reverse()
             setTags(main)
@@ -48,7 +48,7 @@ const AllTags = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`https://api.swhealthcares.com/api/v1/delete-tag/${id}`);
+                    const res = await axios.delete(`http://localhost:7000/api/v1/deleteTag/${id}`);
                     console.log(res.data);
                     toast.success("Tag Deleted Successfully");
                     handleFetch();
@@ -106,8 +106,8 @@ const AllTags = () => {
                         {currentItems.map((tag, index) => (
                             <tr key={tag._id}>
                                 <th scope="row">{index + 1}</th>
-                                <td><div className="circle-color" style={{background: `${tag.TagColour}`}}>{tag.title}</div></td>
-                                <td><div className="circle-color" style={{background: `${tag.TagColour}`}}></div></td>
+                                <td><div className="circle-color" style={{background: `${tag.tagColour}`}}>{tag.tagName}</div></td>
+                                <td><div className="circle-color" style={{background: `${tag.tagColour}`}}></div></td>
                                 <td><Link to={`/edit-tag/${tag._id}`} className="bt edit">Edit <i class="fa-solid fa-pen-to-square"></i></Link></td>
                                 <td><Link onClick={() => { handleDelete(tag._id) }} className="bt delete">Delete <i class="fa-solid fa-trash"></i></Link></td>
                             </tr>
