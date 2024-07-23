@@ -467,3 +467,26 @@ exports.updateDeliveryAddress = async (req, res) => {
         });
     }
 };
+
+exports.getAllUsers = async (req,res) => {
+    try {
+        const allUser = await User.find()
+        if(!allUser){
+            return res.status(404).json({
+                success: false,
+                msg: 'User not found'
+            })
+        }
+        res.status(200).json({
+            success: true,
+            msg: 'All Users',
+            data: allUser
+        })
+    } catch (error) {
+     console.log(error)   
+     return res.status(500).json({
+        success: false,
+        msg: 'Internal Server Error'
+     })
+    }
+}

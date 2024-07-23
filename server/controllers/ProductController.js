@@ -4,13 +4,13 @@ const uploadImages = require('../middlewares/Cloudinary');
 // Create product with images and other details
 exports.CreateProduct = async (req, res) => {
     try {
+        console.log('productdata',req.body)
         const SliderImages = req.files['SliderImages'] || [];
         const DataSheetImages = req.files['DataSheet'] || [];
         const MainImage = req.files['MainImage'] || [];
-
+        console.log(req.body)
         // Extract product details from request body
         const { ProductName, Category, SmallDescription, Price, DiscountPercentage, PriceAfterDiscount, HowManyStock, isStockOut, isLatestProduct, Specifications } = req.body;
-
         // Perform other necessary validations on the product details
         if (!ProductName || !SmallDescription || !Price || !DiscountPercentage || !PriceAfterDiscount || !HowManyStock) {
             return res.status(400).json({
@@ -39,6 +39,7 @@ exports.CreateProduct = async (req, res) => {
         const mainImageUrl = await uploadImageBuffers(MainImage);
         // console.log(sliderImagesUrls)
         // Create the product in the database
+        
         const newProduct = new Product({
             ProductName,
             Category,
@@ -77,3 +78,28 @@ exports.CreateProduct = async (req, res) => {
         });
     }
 };
+
+exports.GetAllProduct = async (req,res) => {
+    try {
+        const allProduct = await Product.find()
+        if (!allProduct) {
+            return res.status(404).json({
+                success: false,
+                msg: "No product found"
+            });
+
+        }
+        return res.status(200).json({
+            success: true,
+            msg: "All product found",
+            product: allProduct
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(501).json({
+            success: false,
+            msg: "Internal Server Error"
+        })
+    }
+}

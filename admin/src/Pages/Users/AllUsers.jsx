@@ -7,8 +7,8 @@ const AllUsers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get('https://api.swhealthcares.com/api/v1/all-users');
-                setUsers(res.data.users);
+                const res = await axios.get('http://localhost:7000/api/v1/AllUser');
+                setUsers(res.data.data);
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
@@ -44,12 +44,12 @@ const AllUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => (
+                        {users && users.map((user, index) => (
                             <tr key={user._id}>
                                 <th scope="row">{index + 1}</th>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.phoneNumber}</td>
+                                <td>{user.FullName}</td>
+                                <td>{user.Email}</td>
+                                <td>{user.ContactNumber}</td>
                                 <td>{user.Role}</td>
                                 <td>{user.isActive ? 'Yes' : 'No'}</td>
                                 <td>{new Date(user.createdAt).toLocaleString()}</td>

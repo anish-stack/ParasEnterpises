@@ -2,30 +2,32 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-const CreateVoucher = ({ onCreate }) => {
+const CreateVoucher = () => {
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-        CouponeCode: '',
-        HowMuchPercentageof: '',
-        Active: true,
+        CouponCode: '',
+        descountpercent: '',
+        isActive: true,
     });
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value,
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validation
-        if (!formData.CouponeCode || !formData.HowMuchPercentageof) {
+        if (!formData.CouponCode || !formData.descountpercent) {
             toast.error('Please submit all fields');
             return;
         }
@@ -33,22 +35,21 @@ const CreateVoucher = ({ onCreate }) => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://api.swhealthcares.com/api/v1/vouchers/create-vouchers', formData);  // Adjust the endpoint as needed
-            console.log(response.data.data);
+            const response = await axios.post('http://localhost:7000/api/v1/createVouncher', formData);
+            console.log(response.data);
             toast.success('Coupon Code Generated Successfully');
             setIsLoading(false);
-            navigate('/all-voucher');
-            //   setFormData({ CouponeCode: '', HowMuchPercentageof: '', Active: true });
+            // navigate('/all-voucher');
         } catch (error) {
             console.error("Error creating voucher:", error);
-            toast.error(error.response.data.error || "Internal Server Error")
+            toast.error(error.response?.data?.error || "Internal Server Error");
             setIsLoading(false);
         }
     };
 
     return (
         <>
-
+            <ToastContainer />
             <div className="bread">
                 <div className="head">
                     <h4>Create Voucher</h4>
@@ -64,8 +65,8 @@ const CreateVoucher = ({ onCreate }) => {
                         <label className="form-label">Coupon Code</label>
                         <input
                             type="text"
-                            name="CouponeCode"
-                            value={formData.CouponeCode}
+                            name="CouponCode"
+                            value={formData.CouponCode}
                             onChange={handleChange}
                             className="form-control"
                         />
@@ -74,8 +75,8 @@ const CreateVoucher = ({ onCreate }) => {
                         <label className="form-label">Discount Percentage</label>
                         <input
                             type="number"
-                            name="HowMuchPercentageof"
-                            value={formData.HowMuchPercentageof}
+                            name="descountpercent"
+                            value={formData.descountpercent}
                             onChange={handleChange}
                             className="form-control"
                         />
@@ -83,26 +84,21 @@ const CreateVoucher = ({ onCreate }) => {
                     <div className="col-md-6 form-check">
                         <input
                             type="checkbox"
-                            name="Active"
-                            checked={formData.Active}
-                            onChange={(e) => setFormData({ ...formData, Active: e.target.checked })}
+                            name="isActive"
+                            checked={formData.isActive}
+                            onChange={handleChange}
                             className="form-check-input"
                         />
                         <label className="form-check-label">Active</label>
                     </div>
                     <div className="col-12 text-center">
-                        <button type="submit" disabled={isLoading} className={`${isLoading ? 'not-allowed':'allowed'}`}>
+                        <button type="submit" disabled={isLoading} className={`${isLoading ? 'not-allowed' : 'allowed'}`}>
                             {isLoading ? "Please Wait..." : "Create Voucher"}
                         </button>
                     </div>
-                    
                 </form>
-
             </div>
-
-
         </>
-
     );
 };
 

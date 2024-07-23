@@ -8,64 +8,50 @@ const EditTag = () => {
     const { id } = useParams();
 
     const [formData, setData] = useState({
-        title: '',
-        TagColour:''
+        tagName: '',
+        tagColour: ''
     });
 
-    const [loading, setLoading] = useState(true); // Add loading state
+    const [loading, setLoading] = useState(true);
     const [btnLoading, setBtnLoading] = useState(false);
 
     const handleChange = (e) => {
-        const { name, value, type, checked, files } = e.target;
-        if (type === 'checkbox') {
-            setData({
-                ...formData,
-                [name]: checked
-            });
-        } else if (type === 'file') {
-            const file = files[0];
-            setData({
-                ...formData,
-                [name]: file,
-                previewImage: URL.createObjectURL(file) // Set preview image URL
-            });
-        } else {
-            setData({
-                ...formData,
-                [name]: value
-            });
-        }
+        const { name, value } = e.target;
+        setData({
+            ...formData,
+            [name]: value
+        });
     };
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get(`https://api.swhealthcares.com/api/v1/get-all-tag`);
+            const res = await axios.get(`http://localhost:7000/api/v1/getAllTag`);
             const tags = res.data.data;
             const filterData = tags.filter((item) => item._id === id);
             if (filterData.length > 0) {
                 setData({
-                    title: filterData[0].title,
-                    TagColour: filterData[0].TagColour,
+                    tagName: filterData[0].tagName,
+                    tagColour: filterData[0].tagColour,
                 });
             }
-            setLoading(false); // Set loading to false after data is fetched
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching Tags:', error);
-            setLoading(false); // Set loading to false even if there's an error
+            setLoading(false);
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setBtnLoading(true)
+        setBtnLoading(true);
 
         try {
-            const response = await axios.put(`https://api.swhealthcares.com/api/v1/update-tag/${id}`, formData);
+            await axios.put(`http://localhost:7000/api/v1/updateTag/${id}`, formData);
             toast.success("Tag Updated Successfully!");
             setBtnLoading(false);
             window.location.href = '/all-tags';
         } catch (error) {
-            setBtnLoading(false)
+            setBtnLoading(false);
             console.error('Error updating Tag:', error);
             toast.error(error.response?.data?.message || 'An error occurred');
         }
@@ -93,16 +79,16 @@ const EditTag = () => {
                 ) : (
                     <form className="row g-3" onSubmit={handleSubmit}>
                         <div className="col-md-4">
-                            <label htmlFor="title" className="form-label">Tag Name</label>
-                            <input type="text" onChange={handleChange} name='title' value={formData.title} className="form-control" id="title" />
+                            <label htmlFor="tagName" className="form-label">Tag Name</label>
+                            <input type="text" onChange={handleChange} name='tagName' value={formData.tagName} className="form-control" id="tagName" />
                         </div>
                         <div className="col-md-6">
-                            <label htmlFor="TagColour" className="form-label">Tag Color</label>
-                            <input type="color" onChange={handleChange} name='TagColour' value={formData.TagColour} className="form-control" id="TagColour" />
+                            <label htmlFor="tagColour" className="form-label">Tag Color</label>
+                            <input type="color" onChange={handleChange} name='tagColour' value={formData.tagColour} className="form-control" id="tagColour" />
                         </div>
 
                         <div className="col-12 text-center">
-                            <button type="submit" className={`${btnLoading ? 'not-allowed':'allowed'}`} >{btnLoading ? "Please Wait.." : "Update Tag"} </button>
+                            <button type="submit" className={`btn ${btnLoading ? 'not-allowed' : 'allowed'}`} >{btnLoading ? "Please Wait.." : "Update Tag"} </button>
                         </div>
                     </form>
                 )}
