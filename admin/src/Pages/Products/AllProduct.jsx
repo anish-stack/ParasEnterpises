@@ -15,8 +15,8 @@ const AllProduct = () => {
     const handleFetch = async () => {
         try {
             const res = await axios.get('http://localhost:7000/api/v1/get-all-product');
-            const reverseData = res.data.data
-            console.log(res.data.data)
+            const reverseData = res.data.product
+            console.log(res.data.product)
             const main = reverseData.reverse()
             setProduct(main)
             console.log(products)
@@ -101,6 +101,9 @@ const AllProduct = () => {
                             <th scope="col">Product Name</th>
                             <th scope="col">Product Image</th>
                             <th scope="col">Price</th>
+                            <th scope="col">Discount %</th>
+                            <th scope="col">Latest Product</th>
+
                             <th scope="col">Discount Price</th>
                             <th scope="col">Tag</th>
                             <th scope="col">Stock Quantity</th>
@@ -112,13 +115,15 @@ const AllProduct = () => {
                         {currentItems.map((product, index) => (
                             <tr key={product._id}>
                                 <th scope="row">{index + 1}</th>
-                                <td>{product.categoryName}</td>
-                                <td>{product.productName}</td>
-                                <td><img src={product.firstImage} alt={product.productName} style={{ width: '50px', height: '50px' }} /></td>
-                                <td>{product.price}</td>
-                                <td>{product.discountPrice}</td>
-                                <td>{product.tag}</td>
-                                <td>{product.stockQuantity}</td>
+                                <td>{product.Category}</td>
+                                <td>{product.ProductName.substring(0, 14) + '....'}</td>
+                                <td><img src={product.MainImage.url} alt={product.ProductName} style={{ width: '50px', height: '50px' }} /></td>
+                                <td>{product.Price}</td>
+                                <td>{product.DiscountPercentage}</td>
+                                <td>{product.isLatestProduct ? 'Yes' : 'No'}</td>
+                                <td>{product.PriceAfterDiscount}</td>
+                                <td>{product.Tag}</td>
+                                <td>{product.HowManyStock}</td>
                                 <td><Link to={`/edit-product/${product._id}`} className="bt edit">Edit <i class="fa-solid fa-pen-to-square"></i></Link></td>
                                 <td><Link onClick={() => { handleDelete(product._id) }} className="bt delete" >Delete <i class="fa-solid fa-trash"></i></Link></td>
                             </tr>

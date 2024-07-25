@@ -8,19 +8,18 @@
   list-style: none;
 }
 :root{
-  --main-bg : #E4E9F7;
-
-  --light-white: #f0f0f0;
-  --light-white-p: #6c757d;
-  --color-main: #2E3F97;  
-  --color-main-light: #53b6fd;  
-  --color-anchor: #0d6efd;
-  --color-blue: #4d8aff;
-  --color-dark-blue: #004269;
-  --color-blu : #4387c0;
-  --color-blue-light : #00AAA9;
-  --color-orange : orange;
-  --color-green : rgb(44, 185, 16);
+  --main-bg: #1F2937;            /* Dark slate gray background */
+  --light-white: #f0f0f0;        /* Keeping this as it is for contrast */
+  --light-white-p: #d1d5db;      /* Light grey for secondary text */
+  --color-main: #1F2937;         /* Main dark slate gray */
+  --color-main-light: #0a1732;   /* Lighter gray */
+  --color-anchor: #F87171;       /* Soft red for anchors and links */
+  --color-blue: #4d8aff;         /* Bright blue */
+  --color-dark-blue: #1e3a8a;    /* Dark blue */
+  --color-blu: #3b82f6;          /* Lighter blue */
+  --color-blue-light: #93c5fd;   /* Light navy blue */
+  --color-orange: #fb923c;       /* Vivid orange for contrast */
+  --color-green: #34d399;        /* Green for success messages */
 
   --border-color-1 : rgba(101, 119, 134, 0.36);
   --transition-3: all 300ms ease-in;

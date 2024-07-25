@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import AutoMotive from '../../components/Products/AutomotiveProducts';
-import toast from 'react-hot-toast';
-import DataSheet from './Data sheet.png';
 
-const SingleProduct = () => {
+import axios from 'axios';
+import Heading from '../../components/Heading/Heading';
+const SingleProduct = ({ handleAddToCart }) => {
+
     const location = useLocation();
     const navigate = useNavigate();
-
+    const { id } = useParams()
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -20,10 +21,38 @@ const SingleProduct = () => {
     const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', contact: '', time: '' });
+    const [product, setProduct] = useState([])
+    const [relative, setRelative] = useState([])
 
     const toggleAccordion = (index) => {
         setOpenAccordionIndex(openAccordionIndex === index ? null : index);
     };
+    const BackendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
+
+    const handleFetchProduct = async () => {
+        try {
+            const response = await axios.get(`${BackendUrl}/get-single-product/${id}`);
+            console.log(response.data.product)
+            // Assuming relatedProducts is a property of response.data
+            const relatedProducts = response.data.relatedProducts || [];
+
+            // Check if product data exists
+            if (!response.data.product) {
+                return <p>Loading .....</p>;
+            }
+
+            // Set the fetched product data
+            setProduct([response.data.product]);
+            setRelative(relatedProducts)
+
+        } catch (error) {
+            console.error("Error fetching product data:", error);
+        }
+    };
+
+    useEffect(() => {
+        handleFetchProduct()
+    }, [id])
 
     const increaseQuantity = () => {
         setQuantity(prevQuantity => {
@@ -41,24 +70,10 @@ const SingleProduct = () => {
         }
     };
 
-    const specifications = [
-        {
-            title: "Specification 1",
-            details: "CB-HFT(YG) YELLOW/GREEN STRIPED HEAT-SHRINKABLE TUBING CB-HFT(YG) is a yellow and green striped heat-shrinkable tubing which is flexible, flame-retardant and resistant to common fluids and solvents. This tubing may be used in yellow and green wiring linkage and ground marking."
-        },
-        {
-            title: "Specification 2",
-            details: "CB-HFT(YG) YELLOW/GREEN STRIPED HEAT-SHRINKABLE TUBING CB-HFT(YG) is a yellow and green striped heat-shrinkable tubing which is flexible, flame-retardant and resistant to common fluids and solvents. This tubing may be used in yellow and green wiring linkage and ground marking."
-        },
-        {
-            title: "Specification 3",
-            details: "CB-HFT(YG) YELLOW/GREEN STRIPED HEAT-SHRINKABLE TUBING CB-HFT(YG) is a yellow and green striped heat-shrinkable tubing which is flexible, flame-retardant and resistant to common fluids and solvents. This tubing may be used in yellow and green wiring linkage and ground marking."
-        }
-    ];
 
-    const handleAddToCart = () => {
-        toast.success("Successfully Added to Cart");
-        window.location.href = "/Cart";
+
+    const addtoCart = (product) => {
+        handleAddToCart(product, quantity);
     };
 
     const handleFormSubmit = (e) => {
@@ -85,73 +100,137 @@ const SingleProduct = () => {
                         <span className="mx-2">/</span>
                     </li>
                     <li className="flex items-center">
-                        <a href="/Shop" className="text-blue-500">Shop</a>
+                        <a href="/" className="text-blue-500">Products</a>
                         <span className="mx-2">/</span>
                     </li>
-                    <li className="flex items-center text-gray-800">CB-HFT(YG)</li>
+                    <li className="flex items-center text-gray-800">{product.map((items) => items.ProductName)}</li>
                 </ol>
             </nav>
             {/* Product Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Product Image */}
-                <div>
-                    <img src="https://parasenterprises.com/images/Yellow_green_stripeHeatShrinkTubing.jpg" alt="Product" className="w-full h-auto object-contain" />
-                </div>
-                {/* Product Information */}
-                <div>
-                    <h2 className="text-2xl font-semibold mb-2">CB-HFT(YG)</h2>
-                    <p className="text-gray-600 mb-4">Category</p>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div className="flex items-center mt-2 mb-4">
-                        <span className="text-lg font-semibold mr-2"><i className="fa-solid mr-1 fa-rupee-sign"></i>100</span>
-                        <del className="text-red-500"><i className="fa-solid mr-1 fa-rupee-sign"></i>120</del>
-                    </div>
-                    <div className="mt-8">
-                        <h3 className="text-xl font-semibold mb-4">Estimated Delivery Time</h3>
-                        <p className="text-gray-600">2-3 business days</p>
-                    </div>
-                    {/* Quantity Counter */}
-                    <div className="flex mt-4 items-center mb-4">
-                        <button onClick={decreaseQuantity} className="px-3 py-1 bg-blue-400 text-white rounded-l-md focus:outline-none">-</button>
-                        <input type="text" value={quantity} readOnly className="px-3 py-1 bg-gray-100 text-center w-16" />
-                        <button onClick={increaseQuantity} className="px-3 py-1 bg-red-400 text-white rounded-r-md focus:outline-none">+</button>
-                    </div>
-                    {/* Buttons */}
-                    <div className="flex mt-12 space-x-2">
-                        <Link to={'/Checkout'} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none">Buy Now</Link>
-                        <button onClick={handleAddToCart} className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            <div className='w-full mx-auto px-4 py-5'>
-                <div className=''>
-                    <img src={DataSheet} alt="" />
-                </div>
-            </div>
-            {/* Accordion for Product Specifications */}
-            <div className="mt-8">
-                <h3 className="text-xl font-semibold mb-4">Product Specifications</h3>
-                <div>
-                    {specifications.map((specification, index) => (
-                        <div key={index} className="border rounded-lg overflow-hidden mb-4">
-                            <div
-                                className="flex items-center justify-between bg-gray-200 px-4 py-2 cursor-pointer"
-                                onClick={() => toggleAccordion(index)}
-                            >
-                                <span>{specification.title}</span>
-                                <svg className={`w-4 h-4 ${openAccordionIndex === index ? 'transform rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
+            {product && product.map((item, index) => (
+                <div className='' key={index}>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Product Image */}
+                        <div>
+                            <img src={item.MainImage.url} alt={`${item.ProductName + 'Images'}`} className="w-full h-auto md:h-[70%] aspect-square object-contain" />
+                        </div>
+                        {/* Product Information */}
+                        <div>
+                            <h2 className="text-2xl font-semibold mb-2">{item.ProductName}</h2>
+                            <p className="text-gray-600 mb-4">{item.Category}</p>
+                            <p>{item.SmallDescription}</p>
+                            <div className="flex items-center mt-2 mb-4">
+                                <span className="text-lg font-semibold mr-2"><i className="fa-solid mr-1 fa-rupee-sign"></i>{item.PriceAfterDiscount.toFixed(0)}</span>
+                                <del className="text-red-500"><i className="fa-solid mr-1 fa-rupee-sign"></i>{item.Price}</del>
                             </div>
-                            <div className={`${openAccordionIndex === index ? 'block' : 'hidden'} border-t px-4 py-2`}>
-                                <p>{specification.details}</p>
+                            <div className="mt-8">
+                                <h3 className="text-xl font-semibold mb-4">Estimated Delivery Time</h3>
+                                <p className="text-gray-600">2-3 business days</p>
+                            </div>
+                            {/* Quantity Counter */}
+                            <div className="flex mt-4 items-center mb-4">
+                                <button onClick={decreaseQuantity} className="px-3 py-1 bg-blue-400 text-white rounded-l-md focus:outline-none">-</button>
+                                <input type="text" value={quantity} readOnly className="px-3 py-1 bg-gray-100 text-center w-16" />
+                                <button onClick={increaseQuantity} className="px-3 py-1 bg-red-400 text-white rounded-r-md focus:outline-none">+</button>
+                            </div>
+                            {/* Buttons */}
+                            <div className="flex mt-12 space-x-2">
+                                <Link to={'/Checkout'} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none">Buy Now</Link>
+                                <button onClick={() => addtoCart(item)} className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none">Add to Cart</button>
                             </div>
                         </div>
-                    ))}
+                    </div>
+                    <div className='w-full mx-auto px-4 py-5'>
+                        <div className=''>
+                            <img src={item.DataSheet.url} alt="" />
+                        </div>
+                    </div>
+                    {/* Accordion for Product Specifications */}
+                    <div className="mt-8">
+                        <h3 className="text-xl font-semibold mb-4">Product Specifications</h3>
+                        <div>
+                            {item.Specifications.map((specification, index) => (
+                                <div key={index} className="border rounded-lg overflow-hidden mb-4">
+                                    <div
+                                        className="flex items-center justify-between bg-gray-200 px-4 py-2 cursor-pointer"
+                                        onClick={() => toggleAccordion(index)}
+                                    >
+                                        <span>{specification.title}</span>
+                                        <svg className={`w-4 h-4 ${openAccordionIndex === index ? 'transform rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                    <div className={`${openAccordionIndex === index ? 'block' : 'hidden'} border-t px-4 py-2`}>
+                                        <p>{specification.details}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <AutoMotive />
+            ))}
+
+
+            {relative.length > 0 ? (
+                <div>
+                    <Heading level="1" className="text-blue-600">
+                        Related  <span data-aos="fade-up" className='text-red-400'>Products</span>
+                    </Heading>
+                    <div className="w-full md:max-w-7xl mx-auto py-5 px-2 md:py-8">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
+                            {relative.map((item, index) => (
+                                <Link
+                                    to={`/Single-Product/${item._id}?&productName=${item.ProductName.replace(/\s+/g, '-')}`}
+                                    key={item.id}
+                                    data-aos="zoom-y-out"
+                                    data-aos-delay="50"
+                                    className="bg-white shadow-md rounded-lg overflow-hidden"
+                                >
+                                    <img
+                                        src={item.MainImage.url}
+                                        alt={item.ProductName}
+                                        className="w-full h-32 md:h-48 object-cover"
+                                    />
+                                    <div className="p-1 md:p-4">
+                                        <p className='text-sm border-b-2 w-1/2 border-b-red-300'>{item.Category}</p>
+                                        <h2 className="text-xl font-semibold mt-3 mb-2">{item.ProductName}</h2>
+                                        <p className="text-gray-600 truncate mb-2">{item.SmallDescription.substring(1, 22) + '......'}</p>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-800">
+                                                <i className="fa-solid mr-1 fa-rupee-sign"></i>{item.Price}
+                                            </span>
+                                            <span className="text-sm text-red-500 line-through">
+                                                <i className="fa-solid mr-1 fa-rupee-sign"></i>{item.Price + item.PriceAfterDiscount}
+                                            </span>
+                                        </div>
+                                        <div className="md:flex justify-between gap-1 mb-2 py-3 mt-4 items-center">
+                                            <Link
+                                                to={'/Checkout'}
+                                                className="bg-blue-500 block w-full text-xs md:w-auto md:truncate hover:bg-blue-700 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded"
+                                            >
+                                                Buy Now
+                                            </Link>
+                                            <Link
+                                                to={'/Cart'}
+                                                className="bg-red-400 block w-full md:w-auto text-xs hover:bg-red-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded"
+                                            >
+                                                Add to Cart <i className="fa-solid fa-cart-plus"></i>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <AutoMotive />
+            )}
+
+
+
 
             {/* Modal for Bulk Purchase */}
             {isModalOpen && (

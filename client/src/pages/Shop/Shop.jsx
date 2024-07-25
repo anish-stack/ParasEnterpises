@@ -15,7 +15,7 @@ const Shop = () => {
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 6;
-
+    
     const products = [
         { id: 1, name: "Product 1", category: "Category 1", description: "Lorem ipsum dolor sit amet.", image: "https://via.placeholder.com/150", price: 50.00, discount: 10.00, active: true },
         { id: 2, name: "Product 2", category: "Category 2", description: "Sed do eiusmod tempor.", image: "https://via.placeholder.com/150", price: 35.00, discount: 5.00, active: false },

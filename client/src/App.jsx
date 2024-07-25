@@ -5,13 +5,16 @@ import './App.css';
 import Header from './components/Header/Header';
 import Footer from './components/footer/Footer';
 import Loader from './components/Loader/Loader';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import MetaHelmet from './components/Meta/Helmet';
 import ThankYou from './pages/Thankyou/Thankyou';
 import NewsSection from './pages/News/News';
 import SingleNews from './pages/News/SingleNews';
+import Products from './components/Products/Products';
+import CategoryProducts from './components/Products/CategoryProducts';
+import Profile from './pages/Profile/Profile';
 
 const Home = lazy(() => import('./pages/Home/Home'));
 const About = lazy(() => import('./pages/About/About'));
@@ -34,10 +37,71 @@ const ErrorPage = lazy(() => import('./components/Error/ErrorPage'));
 
 function App() {
   const [isLoader, setIsLoader] = useState(true);
+  const [CartCount, setCartCount] = useState(0);
+  // const token = localStorage.getItem('ParasUserToken', token);
+  // const tokenExpired = localStorage.getItem('ParasUserTokenExpired', expirationTime.toString());
+  useEffect(() => {
+    // Initialize cart count from sessionStorage when the component mounts
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const uniqueProductCount = cart.length;
+    setCartCount(uniqueProductCount);
+  }, []); // Empty dependency array means this effect runs only once on mount
+
+  const handleAddToCart = (product, quantity) => {
+    try {
+      // Retrieve the current cart from session storage or initialize it as an empty array
+      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+      // Find if the product already exists in the cart
+      const exist = cart.find(item => item.product._id === product._id);
+
+      if (exist) {
+        // If the product exists, update its quantity
+        exist.quantity += quantity;
+        toast.success("Quantity updated");
+      } else {
+        // If the product does not exist, add it to the cart
+        cart.push({ product, quantity });
+        toast.success("Item added to cart");
+      }
+
+      // Save the updated cart back to session storage
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+
+      // Calculate the number of unique products in the cart
+      const uniqueProductCount = cart.length;
+
+      // Update the cart count state
+      setCartCount(uniqueProductCount);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast.error("Failed to add item to cart");
+    }
+  };  
+
+  const handleRemove = (productId) => {
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.product._id !== productId);
+
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    setCartCount(cart.reduce((acc, item) => acc + item.quantity, 0));
+    toast.success("Item removed successfully");
+  };
+
+  const handleUpdateQuantity = (productId, quantity) => {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const exist = cart.find(item => item.product._id === productId);
+
+    if (exist) {
+      exist.quantity = quantity;
+    }
+
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    setCartCount(cart.reduce((acc, item) => acc + item.quantity, 0));
+  };
 
   useEffect(() => {
     AOS.init({
-      disable: "phone",
       duration: 700,
       easing: "ease-out-cubic",
     });
@@ -46,7 +110,7 @@ function App() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoader(false);
-    }, 1900); // Set a timeout for 1 second to simulate loading time
+    }, 1900); // Set a timeout for 1.9 seconds to simulate loading time
     return () => clearTimeout(timeout); // Clear the timeout on unmount
   }, [window.location.pathname]);
 
@@ -58,6 +122,20 @@ function App() {
         title: "Home - Paras Enterprises",
         description: "Welcome to Paras Enterprises. Discover our range of products and offers.",
         keywords: "Paras Enterprises, home, products, offers"
+      }
+    },
+    {
+      path: "/Products",
+      component: Products,
+      meta: {
+        title: "Products - Paras Enterprises",
+        description: "Explore our latest products at Paras Enterprises.",
+        keywords: "Paras Enterprises, products, latest products"
+      },
+      extraProps: {
+        handleAddToCart,
+        handleRemove,
+        handleUpdateQuantity
       }
     },
     {
@@ -79,6 +157,33 @@ function App() {
       }
     },
     {
+      path: "/certifications",
+      component: Certification,
+      meta: {
+        title: "Login - Paras Enterprises",
+        description: "Login to your account at Paras Enterprises.",
+        keywords: "Paras Enterprises, login, account"
+      }
+    },
+    {
+      path: "/Category-Products/:Name",
+      component: CategoryProducts,
+      meta: {
+        title: "Category-Products - Paras Enterprises",
+        description: "Category-Products at Paras Enterprises.",
+        keywords: "Paras Enterprises, Category-Products, Products"
+      }
+    },
+    {
+      path: "profile",
+      component: Profile,
+      meta: {
+        title: "User Profile - Paras Enterprises",
+        description: "User Profile at Paras Enterprises.",
+        keywords: "Paras Enterprises, User Profile  , Products"
+      }
+    },
+    {
       path: "/register",
       component: Register,
       meta: {
@@ -97,12 +202,17 @@ function App() {
       }
     },
     {
-      path: "/Single-Product",
+      path: "/Single-Product/:id",
       component: SingleProduct,
       meta: {
         title: "Product Details - Paras Enterprises",
         description: "Detailed view of a product at Paras Enterprises.",
         keywords: "Paras Enterprises, product, details"
+      },
+      extraProps: {
+        handleAddToCart,
+        handleRemove,
+        handleUpdateQuantity
       }
     },
     {
@@ -121,6 +231,11 @@ function App() {
         title: "Cart - Paras Enterprises",
         description: "View and manage your cart at Paras Enterprises.",
         keywords: "Paras Enterprises, cart, shopping"
+      },
+      extraProps: {
+        handleAddToCart,
+        handleRemove,
+        handleUpdateQuantity
       }
     },
     {
@@ -199,9 +314,9 @@ function App() {
       path: "/thank-you",
       component: ThankYou,
       meta: {
-        title: "Thankyou For Contacting - Paras Enterprises",
-        description: "Get in touch with us at Paras Enterprises.",
-        keywords: "Paras Enterprises, contact, support"
+        title: "Thank You - Paras Enterprises",
+        description: "Thank you for contacting Paras Enterprises.",
+        keywords: "Paras Enterprises, thank you, contact"
       }
     },
     {
@@ -214,7 +329,7 @@ function App() {
       }
     },
     {
-      path: "/Single-News",
+      path: "/Single-News/:id",
       component: SingleNews,
       meta: {
         title: "Latest News - Paras Enterprises",
@@ -223,63 +338,58 @@ function App() {
       }
     },
     {
-      path: "/certifications",
-      component: () => (
-        <>
-
-          <Certification />
-          <Contact />
-        </>
-      ),
-      meta: {
-        title: "Certifications - Paras Enterprises",
-        description: "Explore the certifications and accreditations achieved by Paras Enterprises.",
-        keywords: "Paras Enterprises, certifications, accreditations"
-      }
-    }
-    ,
-    {
-      path: "/*",
+      path: "*",
       component: ErrorPage,
       meta: {
-        title: "404 - Page Not Found",
-        description: "The page you are looking for does not exist.",
-        keywords: "404, page not found, error"
+        title: "Error - Page Not Found",
+        description: "Sorry, the page you are looking for does not exist.",
+        keywords: "error, page not found"
       }
-    }
+    },
   ];
 
   return (
     <BrowserRouter>
-      {isLoader ? (
-        <Loader /> // Show loader if isLoader is true
-      ) : (
-        <>
-          <Header />
-          <Suspense fallback={<Loader />}>
-            <Routes>
-              {routesConfig.map(({ path, component: Component, meta }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  element={
-                    <>
-                      <MetaHelmet
-                        Title={meta.title}
-                        Descriptions={meta.description}
-                        keywords={meta.keywords}
-                      />
-                      <Component />
-                    </>
-                  }
-                />
-              ))}
-            </Routes>
-          </Suspense>
-          <Footer />
-        </>
-      )}
-      <Toaster />
+      <div className='overflow-x-hidden relative'>
+        {isLoader ? (
+          <Loader />
+        ) : (
+          <>
+            <MetaHelmet />
+            <Header CartCount={CartCount} />
+            <Suspense fallback={<Loader />}>
+              <Routes>
+                {routesConfig.map(({ path, component: Component, meta, extraProps }) => (
+                  <Route
+                    key={path}
+                    path={path}
+                    element={
+                      <>
+                        <MetaHelmet
+                          Title={meta.title}
+                          Descriptions={meta.description}
+                          keywords={meta.keywords}
+                        />
+                        <Component {...extraProps} />
+                      </>
+                    }
+                  />
+                ))}
+              </Routes>
+            </Suspense>
+            <Footer />
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+              toastOptions={{
+                style: {
+                  fontSize: "14px",
+                },
+              }}
+            />
+          </>
+        )}
+      </div>
     </BrowserRouter>
   );
 }

@@ -1,7 +1,7 @@
 const User = require('../models/UserModel');
 const SendToken = require('../utils/SendToken');
 const SendEmail = require('../utils/SendEmail');
-
+const Orders = require('../models/OrderModel')
 exports.register = async (req, res) => {
     try {
         const { FullName, Email, ContactNumber, Password } = req.body;
@@ -202,6 +202,37 @@ exports.logout = async (req, res) => {
     }
 };
 
+exports.userDetails = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        if (!userId) {
+            return res.status(401).json({ message: 'Please login to access this resource.' });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // Fetch all orders for the user
+        const allOrders = await Orders.find({ userId: user._id });
+
+        // Exclude sensitive information from user details
+        const { Password, ...userDetails } = user.toObject();
+
+        res.status(200).json({
+            message: 'User details and orders retrieved successfully.',
+            user: userDetails,
+            orders: allOrders
+        });
+
+    } catch (error) {
+        console.error('Error fetching user details and orders:', error);
+        res.status(500).json({ message: 'Server error. Please try again later.' });
+    }
+};
 exports.passwordChangeRequest = async (req, res) => {
 
     try {
@@ -395,10 +426,9 @@ exports.resendOtp = async (req, res) => {
 
 exports.addDeliveryDetails = async (req, res) => {
     try {
-        const user = req.user; // Assuming req.user contains the authenticated user
-        console.log(user)
-        // Find the user by ID
+        const user = req.user;
         const userExist = await User.findById(user.id._id);
+
         if (!userExist) {
             return res.status(404).json({
                 success: false,
@@ -407,10 +437,23 @@ exports.addDeliveryDetails = async (req, res) => {
         }
 
         // Extract DeliveryAddress from req.body
-        const { DeliveryAddress } = req.body;
+        const { city, pincode, houseNo, street, nearByLandMark } = req.body;
+
+        if (!city || !pincode || !houseNo || !street || !nearByLandMark) {
+            return res.status(400).json({
+                success: false,
+                msg: 'All fields are required'
+            });
+        }
 
         // Update user's DeliveryAddress
-        userExist.DeliveryAddress = DeliveryAddress;
+        userExist.DeliveryAddress = {
+            City: city,
+            PinCode: pincode,
+            HouseNo: houseNo,
+            Street: street,
+            NearByLandMark: nearByLandMark,
+        };
 
         // Save updated user
         await userExist.save();
@@ -428,6 +471,35 @@ exports.addDeliveryDetails = async (req, res) => {
         });
     }
 };
+
+
+exports.GetDeliveryAddressOfUser = async (req, res) => {
+    try {
+        const user = req.user;
+        const userExist = await User.findById(user.id._id);
+
+        if (userExist) {
+            const deliveryAddress = userExist.DeliveryAddress;
+            return res.status(200).json({
+                success: true,
+                deliveryAddress: deliveryAddress
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching delivery address:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to fetch delivery address'
+        });
+    }
+};
+
+
 exports.updateDeliveryAddress = async (req, res) => {
     try {
         const userId = req.user.id._id; // Assuming req.user contains the authenticated user's ID
@@ -440,16 +512,16 @@ exports.updateDeliveryAddress = async (req, res) => {
                 msg: 'User not found'
             });
         }
-
+        console.log(req.body)
         // Extract DeliveryAddress fields from req.body that are actually updated
-        const { City, PinCode, HouseNo, Street, NearByLandMark } = req.body;
+        const { city, pincode, houseNo, street, nearByLandMark } = req.body;
 
         // Update user's DeliveryAddress fields only if they are provided in req.body
-        if (City) user.DeliveryAddress.City = City;
-        if (PinCode) user.DeliveryAddress.PinCode = PinCode;
-        if (HouseNo) user.DeliveryAddress.HouseNo = HouseNo;
-        if (Street) user.DeliveryAddress.Street = Street;
-        if (NearByLandMark) user.DeliveryAddress.NearByLandMark = NearByLandMark;
+        if (city) user.DeliveryAddress.City = city;
+        if (pincode) user.DeliveryAddress.PinCode = pincode;
+        if (houseNo) user.DeliveryAddress.HouseNo = houseNo;
+        if (street) user.DeliveryAddress.Street = street;
+        if (nearByLandMark) user.DeliveryAddress.NearByLandMark = nearByLandMark;
 
         // Save updated user
         await user.save();
@@ -468,10 +540,10 @@ exports.updateDeliveryAddress = async (req, res) => {
     }
 };
 
-exports.getAllUsers = async (req,res) => {
+exports.getAllUsers = async (req, res) => {
     try {
         const allUser = await User.find()
-        if(!allUser){
+        if (!allUser) {
             return res.status(404).json({
                 success: false,
                 msg: 'User not found'
@@ -483,10 +555,10 @@ exports.getAllUsers = async (req,res) => {
             data: allUser
         })
     } catch (error) {
-     console.log(error)   
-     return res.status(500).json({
-        success: false,
-        msg: 'Internal Server Error'
-     })
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            msg: 'Internal Server Error'
+        })
     }
 }

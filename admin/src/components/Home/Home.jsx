@@ -22,6 +22,13 @@ import CreateVoucher from '../../Pages/Vouchers/AddVoucher'
 import AllOrder from '../../Pages/Orders/AllOrder'
 import EditOrder from '../../Pages/Orders/EditOrder'
 import AllUsers from '../../Pages/Users/AllUsers'
+import EditProduct from '../../Pages/Products/EditProduct'
+import AllNews from '../../Pages/News/AllNews'
+import AddNews from '../../Pages/News/AddNews'
+import EditNews from '../../Pages/News/EditNews'
+import AllVideos from '../../Pages/Videos/Video'
+import AddVideo from '../../Pages/Videos/AddVideo'
+import AllContacts from '../../Pages/contacts/AllContacts'
 
 const Home = () => {
   return (
@@ -40,7 +47,7 @@ const Home = () => {
           {/* Product --  */}
           <Route path={"/all-products"} element={<AllProduct/>}/>
           <Route path={"/add-product"} element={<AddProduct/>}/>
-          <Route path={"/edit-product/:id"} element={<EditCategory/>}/>
+          <Route path={"/edit-product/:id"} element={<EditProduct/>}/>
 
           
           {/* --- Orders --- */}
@@ -68,9 +75,18 @@ const Home = () => {
           {/* --- Orders --- */}
           <Route path={"/all-orders"} element={<AllOrder/>}/>
           <Route path={"/edit-order/:id"} element={<EditOrder/>}/>
-
+         {/* --- News --- */}
+         <Route path={"/all-news"} element={<AllNews/>}/>
+         <Route path={"/add-news"} element={<AddNews/>}/>
+         <Route path={"/edit-news/:id"} element={<EditNews/>}/>
+      
+         {/* --- Videos --- */}
+         <Route path={"/all-Videos"} element={<AllVideos/>}/>
+         <Route path={"/add-video"} element={<AddVideo/>}/>
+         <Route path={"/edit-news/:id"} element={<EditNews/>}/>
           
-
+{/* --- Contacts --- */}
+<Route path={"/all-contact"} element={<AllContacts />}/>
 
 
 {/* all-shop */}

@@ -46,7 +46,14 @@ const ProductSchema = new mongoose.Schema({
       required: true
     }
   },
-  Specifications: [String],
+  Specifications: [{
+    title:{
+      type:String,
+    },
+    details:{
+      type:String,
+    }
+  }],
   MainImage: {
     public_id: {
       type: String,
@@ -57,16 +64,10 @@ const ProductSchema = new mongoose.Schema({
       required: true
     }
   },
-  SliderImages: [{
-    public_id: {
-      type: String,
-      required: true
-    },
-    url: {
-      type: String,
-      required: true
-    }
-  }]
+  Tag:{
+    type: String
+  }
+ 
 }, { timestamps: true });
 
 const Product = mongoose.model('Product', ProductSchema);

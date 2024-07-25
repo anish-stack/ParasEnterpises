@@ -1,30 +1,79 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Picture1.png';
 import { ArrowPathIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import axios from 'axios';
 
-const Header = () => {
+const Header = ({ CartCount }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isLinkClick, setIsLinkClick] = useState(false)
+  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [Categories, setCategories] = useState([]);
+  const BackendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
   const handleLinkClick = () => {
-    setMobileMenuOpen(false)
-  }
+    setMobileMenuOpen(false);
+  };
+
+  const fetchAllCategories = async () => {
+    try {
+      const res = await axios.get(`${BackendUrl}/get-all-categories`);
+      const data = res.data.categories;
+      setCategories(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const checkTokenValidity = () => {
+    const token = localStorage.getItem('ParasUserToken');
+    const tokenExpired = localStorage.getItem('ParasUserTokenExpired');
+
+    if (token && tokenExpired) {
+      const expirationTime = parseInt(tokenExpired, 10);
+      const currentTime = new Date().getTime();
+      setIsTokenValid(currentTime < expirationTime);
+    } else {
+      setIsTokenValid(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCategories();
+    checkTokenValidity();
+  }, []);
+
   return (
     <div className='w-full'>
       <div className='bg-white shadow-md'>
         <header className="max-w-7xl flex mx-auto items-center justify-between p-6 lg:px-8">
           <div className='logo'>
-            <Link className='flex items-center justify-center gap-1' to="/"><img className=' h-8 md:h-16 w-auto' src={Logo} alt="logo" />
-              <h1 className=' hidden md:block lg:block md:text-xl text-center mt-2 text-red-700 font-bold'>Paras <span className='text-[#2541D2]'>Enterprises</span></h1>
+            <Link className='flex items-center justify-center gap-1' to="/">
+              <img className='h-8 md:h-16 w-auto' src={Logo} alt="logo" />
+              <h1 className='hidden md:block lg:block md:text-xl text-center mt-2 text-red-700 font-bold'>
+                Paras <span className='text-[#2541D2]'>Enterprises</span>
+              </h1>
             </Link>
           </div>
           <div className='flex items-center gap-3 justify-center lg:hidden'>
             <div className='flex carts'>
-              <ul className='flex items-center  justify-between gap-5'>
-                <li><Link className="rounded-lg text-xs md:text-base font-semibold text-gray-900 hover:bg-gray-50" to="/login">Login</Link> / <Link className="rounded-lg text-xs md:text-base font-semibold text-gray-900 hover:bg-gray-50" to="/register">Register</Link></li>
-                <li><Link className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50" to="/cart"><i className="fa-solid fa-cart-shopping"></i></Link></li>
+              <ul className='flex items-center justify-between gap-5'>
+                {isTokenValid ? (
+                  <li>
+                    <Link className="rounded-lg text-xs md:text-base font-semibold text-gray-900 hover:bg-gray-50" to="/profile">Profile</Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link className="rounded-lg text-xs md:text-base font-semibold text-gray-900 hover:bg-gray-50" to="/login">Login</Link> /
+                    <Link className="rounded-lg text-xs md:text-base font-semibold text-gray-900 hover:bg-gray-50" to="/register">Register</Link>
+                  </li>
+                )}
+                <li>
+                  <Link className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50" to="/cart">
+                    <i className="fa-solid fa-cart-shopping"></i>
+                  </Link>
+                  <span className='text-white px-[0.5rem] py-[0.3rem] relative bottom-3 bg-red-400 rounded-[50%]'>{CartCount || '0'}</span>
+                </li>
               </ul>
             </div>
             <button
@@ -39,25 +88,21 @@ const Header = () => {
           <nav className='hidden lg:flex'>
             <ul className='flex items-center justify-between gap-6'>
               <li className="relative group">
-
-                <Link to="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Our Products  <i className="fa-solid fa-arrow-down h-5 w-5 ml-2 inline-block"></i></Link>
+                <Link to="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                  Our Products <i className="fa-solid fa-arrow-down h-5 w-5 ml-2 inline-block"></i>
+                </Link>
                 <div className="dropdowns shadow-md bg-white px-5 w-full absolute z-30 hidden group-hover:block">
                   <ul className="">
-                    <li>
-                      <Link to="/Shop" className="block rounded-lg py-2 text-sm font-semibold leading-7 hover:text-red-400 text-gray-900 ">Product 1</Link>
-                    </li>
-                    <li>
-                      <Link to="/Shop" className="block rounded-lg py-2 text-sm font-semibold leading-7 hover:text-red-400 text-gray-900 ">Product 2</Link>
-                    </li>
-                    <li>
-                      <Link to="/Shop" className="block rounded-lg py-2 text-sm font-semibold leading-7 hover:text-red-400 text-gray-900 ">Product 3</Link>
-                    </li>
+                    {Categories.map((item, index) => (
+                      <li key={index}>
+                        <a href={`/Category-Products/${item.name.replace(/\s+/g, '-')}`} className="block rounded-lg py-2 text-sm font-semibold leading-7 hover:text-red-400 text-gray-900">
+                          {item.name}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </li>
-              {/* <li><Link to="/shop?Latest-Products" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Latest Products</Link></li> */}
-
-
               <li><Link to="/offers" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Offers</Link></li>
               <li><Link to="/certifications" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Certifications</Link></li>
               <li><Link to="/news" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">News</Link></li>
@@ -65,8 +110,22 @@ const Header = () => {
           </nav>
           <div className='hidden lg:flex carts'>
             <ul className='flex items-center justify-between gap-5'>
-              <li><Link to="/login" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50">Login</Link> / <Link to="/register" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50">Register</Link></li>
-              <li><Link to="/cart" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50"><i className="fa-solid fa-cart-shopping"></i></Link></li>
+              {isTokenValid ? (
+                <li>
+                  <Link to="/profile" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50">Profile</Link>
+                </li>
+              ) : (
+                <li>
+                  <Link to="/login" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50">Login</Link> /
+                  <Link to="/register" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50">Register</Link>
+                </li>
+              )}
+              <li>
+                <Link to="/cart" className="rounded-lg text-base font-semibold text-gray-900 hover:bg-gray-50">
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </Link>
+                <span className='text-white px-[0.5rem] py-[0.3rem] relative bottom-3 bg-red-400 rounded-[50%]'>{CartCount || '0'}</span>
+              </li>
             </ul>
           </div>
         </header>
@@ -88,20 +147,36 @@ const Header = () => {
             <button onClick={() => setDropdownOpen(!dropdownOpen)} className="block w-full text-left rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
               Our Products
               <i className="fa-solid fa-arrow-down h-5 w-5 ml-2 inline-block"></i>
-              {/* <ArrowPathIcon className="h-5 w-5 ml-2 inline-block" /> */}
             </button>
             {dropdownOpen && (
               <div className="mt-2 space-y-2 bg-gray-50 p-2 rounded-lg">
-                <Link onClick={handleLinkClick} to="/Shop" className="block rounded-lg py-2 px-3 text-sm font-semibold leading-7 text-gray-900 hover:text-red-400">Product 1</Link>
-                <Link onClick={handleLinkClick} to="/Shop" className="block rounded-lg py-2 px-3 text-sm font-semibold leading-7 text-gray-900 hover:text-red-400">Product 2</Link>
-                <Link onClick={handleLinkClick} to="/Shop" className="block rounded-lg py-2 px-3 text-sm font-semibold leading-7 text-gray-900 hover:text-red-400">Product 3</Link>
+                {Categories.map((item, index) => (
+                  <li key={index}>
+                    <a href={`/Category-Products/${item.name.replace(/\s+/g, '-')}`} className="block rounded-lg py-2 px-3 text-sm font-semibold leading-7 text-gray-900 hover:text-red-400">
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
               </div>
             )}
           </li>
-          {/* <li><Link onClick={handleLinkClick} to="/shop?Latest-Products" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Latest Products</Link></li> */}
-          <li><Link onClick={handleLinkClick} to="/offers" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Offers</Link></li>
-          <li><Link onClick={handleLinkClick} to="/certifications" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Certifications</Link></li>
-          <li><Link onClick={handleLinkClick} to="/news" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">News</Link></li>
+          <li><Link to="/offers" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Offers</Link></li>
+          <li><Link to="/certifications" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Certifications</Link></li>
+          <li><Link to="/news" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">News</Link></li>
+          {isTokenValid ? (
+            <li><Link to="/profile" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Profile</Link></li>
+          ) : (
+            <>
+              <li><Link to="/login" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Login</Link></li>
+              <li><Link to="/register" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Register</Link></li>
+            </>
+          )}
+          <li>
+            <Link to="/cart" onClick={handleLinkClick} className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+              <i className="fa-solid fa-cart-shopping"></i>
+            </Link>
+            <span className='text-white px-[0.5rem] py-[0.3rem] relative bottom-3 bg-red-400 rounded-[50%]'>{CartCount || '0'}</span>
+          </li>
         </ul>
       </div>
     </div>

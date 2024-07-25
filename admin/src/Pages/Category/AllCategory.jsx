@@ -91,26 +91,26 @@ const AllCategory = () => {
 
             <section className="d-table ">
                 <table class="table table-bordered table-striped table-hover">
-                <thead>
-    <tr>
-        <th scope="col">Sr.No.</th>
-        <th scope="col">Name</th>
-        <th scope="col">Image</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-    </tr>
-</thead>
-<tbody>
-    {categories.map((category, index) => (
-        <tr key={category._id}>
-            <th scope="row">{index + 1}</th>
-            <td>{category.name}</td>
-            <td><img src={category.image.url} alt={category.name} /></td>
-            <td><Link to={`/edit-category/${category._id}`} className="bt edit">Edit <i className="fa-solid fa-pen-to-square"></i></Link></td>
-            <td><Link onClick={() => { handleDelete(category._id) }} className="bt delete">Delete <i className="fa-solid fa-trash"></i></Link></td>
-        </tr>
-    ))}
-</tbody>
+                    <thead>
+                        <tr>
+                            <th scope="col">Sr.No.</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {categories.map((category, index) => (
+                            <tr key={category._id}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{category.name}</td>
+                                <td><img src={category.image.url} alt={category.name} /></td>
+                                <td><Link to={`/edit-category/${category._id}`} className="bt edit">Edit <i className="fa-solid fa-pen-to-square"></i></Link></td>
+                                <td><Link onClick={() => { handleDelete(category._id) }} className="bt delete">Delete <i className="fa-solid fa-trash"></i></Link></td>
+                            </tr>
+                        ))}
+                    </tbody>
 
 
                 </table>
