@@ -1,5 +1,5 @@
 const express = require('express')
-const { register, login, logout, passwordChangeRequest, verifyOtpAndChangePassword, addDeliveryDetails, updateDeliveryAddress, getAllUsers, userDetails, GetDeliveryAddressOfUser } = require('../controllers/Usercontroller')
+const { register, login, logout, passwordChangeRequest, verifyOtpAndChangePassword, addDeliveryDetails, updateDeliveryAddress, getAllUsers, userDetails, GetDeliveryAddressOfUser, resendOtp } = require('../controllers/Usercontroller')
 const { protect } = require('../middlewares/Protect')
 const router = express.Router()
 const { CategoryCreate, updateCategory, deleteCategory, deleteAllCategories, getAllCategories, getCategoryById } = require('../controllers/CategoryController')
@@ -18,6 +18,9 @@ router.post('/Login', login)
 router.get('/Logout', protect, logout)
 router.post('/Password-Change', passwordChangeRequest)
 router.post('/Verify-Otp', verifyOtpAndChangePassword)
+router.post('/resend-otp', resendOtp)
+
+
 router.post('/Add-Delivery-Address', protect, addDeliveryDetails)
 router.get('/user-details', protect, userDetails)
 router.get('/get-Delivery-Address', protect, GetDeliveryAddressOfUser)

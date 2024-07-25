@@ -25,7 +25,7 @@ const EditTag = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get(`http://localhost:7000/api/v1/getAllTag`);
+            const res = await axios.get(`https://parasenterpises.onrender.com/api/v1/getAllTag`);
             const tags = res.data.data;
             const filterData = tags.filter((item) => item._id === id);
             if (filterData.length > 0) {
@@ -46,7 +46,7 @@ const EditTag = () => {
         setBtnLoading(true);
 
         try {
-            await axios.put(`http://localhost:7000/api/v1/updateTag/${id}`, formData);
+            await axios.put(`https://parasenterpises.onrender.com/api/v1/updateTag/${id}`, formData);
             toast.success("Tag Updated Successfully!");
             setBtnLoading(false);
             window.location.href = '/all-tags';

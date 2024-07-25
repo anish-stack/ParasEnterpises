@@ -101,7 +101,7 @@ const AddProduct = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/api/v1/get-all-categories');
+            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-categories');
             setCategories(res.data.categories);
             console.log('category', res.data.categories)
         } catch (error) {
@@ -111,7 +111,7 @@ const AddProduct = () => {
 
     const handleTags = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/api/v1/getAllTag');
+            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/getAllTag');
             setTags(res.data.data);
         } catch (error) {
             console.error('There was an error fetching the tags!', error);
@@ -152,7 +152,7 @@ const AddProduct = () => {
                 formDataToSend.append('DataSheet', formData.DataSheet);
             }
 
-            const response = await axios.post('http://localhost:7000/api/v1/create-product', formDataToSend, {
+            const response = await axios.post('https://parasenterpises.onrender.com/api/v1/create-product', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

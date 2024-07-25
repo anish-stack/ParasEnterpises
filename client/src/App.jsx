@@ -15,6 +15,7 @@ import SingleNews from './pages/News/SingleNews';
 import Products from './components/Products/Products';
 import CategoryProducts from './components/Products/CategoryProducts';
 import Profile from './pages/Profile/Profile';
+import Otp from './pages/Auth/Otp';
 
 const Home = lazy(() => import('./pages/Home/Home'));
 const About = lazy(() => import('./pages/About/About'));
@@ -181,6 +182,15 @@ function App() {
         title: "User Profile - Paras Enterprises",
         description: "User Profile at Paras Enterprises.",
         keywords: "Paras Enterprises, User Profile  , Products"
+      }
+    },
+    {
+      path: "otp",
+      component: Otp,
+      meta: {
+        title: "Password Forget Otp Verify - Paras Enterprises",  
+        description: "Password Forget Otp Verify at Paras Enterprises.",
+        keywords: "Paras Enterprises, User Profile  , Password Forget Otp Verify"
       }
     },
     {

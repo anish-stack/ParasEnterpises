@@ -12,7 +12,7 @@ const AllVideos = () => {
     const itemsPerPage = 8;
     const [showModal, setShowModal] = useState(false);
     const [selectedVideo, setSelectedVideo] = useState(null);
-    const BackendUrl = "http://localhost:7000/api/v1";
+    const BackendUrl = "https://parasenterpises.onrender.com/api/v1";
 
     const handleFetch = async () => {
         try {

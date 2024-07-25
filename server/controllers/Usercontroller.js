@@ -234,13 +234,9 @@ exports.userDetails = async (req, res) => {
     }
 };
 exports.passwordChangeRequest = async (req, res) => {
-
     try {
         const { Email, NewPassword } = req.body;
-        // Generate OTP and expiry time
-        const OTP = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
-        const OTPExpires = new Date();
-        OTPExpires.setMinutes(OTPExpires.getMinutes() + 10); // Set expiry time to 10 minutes from now
+
         // Check password length
         if (NewPassword.length <= 6) {
             return res.status(403).json({
@@ -249,8 +245,22 @@ exports.passwordChangeRequest = async (req, res) => {
             });
         }
 
+        // Find user by email
+        const user = await User.findOne({ Email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                msg: 'User not found'
+            });
+        }
+
+        // Generate OTP and expiry time
+        const OTP = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
+        const OTPExpires = new Date();
+        OTPExpires.setMinutes(OTPExpires.getMinutes() + 10); // Set expiry time to 10 minutes from now
+
         // Update user document with OTP and expiry
-        const user = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { Email },
             {
                 $set: {
@@ -262,13 +272,6 @@ exports.passwordChangeRequest = async (req, res) => {
             { new: true }
         );
 
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                msg: 'User not found'
-            });
-        }
-
         // Prepare email options
         const emailOptions = {
             email: Email,
@@ -276,7 +279,6 @@ exports.passwordChangeRequest = async (req, res) => {
             message: `
                 <html>
                 <head>
-                
                 </head>
                 <body>
                     <p>Your OTP for password reset is: <strong>${OTP}</strong></p>
@@ -302,8 +304,9 @@ exports.passwordChangeRequest = async (req, res) => {
     }
 };
 
+
 exports.verifyOtpAndChangePassword = async (req, res) => {
-    const { Email, OTP } = req.body;
+    const { Email, OTP ,NewPassword} = req.body;
 
     try {
         // Check if OTP is valid and not expired
@@ -321,7 +324,7 @@ exports.verifyOtpAndChangePassword = async (req, res) => {
         }
         console.log(user)
         // Update password
-        user.Password = user.NewPassword; // Assign NewPassword from user object to Password field
+        user.Password = NewPassword; // Assign NewPassword from user object to Password field
         user.PasswordChangeOtp = undefined;
         user.OtpExpiredTime = undefined;
         user.NewPassword = undefined; // Clear NewPassword field after using it
@@ -373,13 +376,13 @@ exports.resendOtp = async (req, res) => {
             });
         }
 
-        // Check if OTP is expired or not
-        if (user.OtpExpiredTime > Date.now()) {
-            return res.status(400).json({
-                success: false,
-                msg: 'OTP is not yet expired. Please wait before requesting a new one.'
-            });
-        }
+        // // Check if OTP is expired or not
+        // if (user.OtpExpiredTime > Date.now()) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         msg: 'OTP is not yet expired. Please wait before requesting a new one.'
+        //     });
+        // }
 
         // Generate new OTP and update expiry time
         const OTP = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
