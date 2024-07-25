@@ -34,7 +34,15 @@ const PaymentSuccess = () => {
     AOS.init({ duration: 1000 });
   }, [orderId]);
 
-  if (!orderInfo) return <p className="text-center text-lg">Loading...</p>;
+  if (!orderInfo) return  
+  <div className="flex flex-col items-center justify-center min-h-screen py-8 px-4">
+  <div className="text-center">
+      <i className="fa-solid fa-hourglass-end text-4xl text-blue-500 mb-4 animate-spin"></i>
+      <p className="text-lg font-semibold text-gray-800 mb-2">Please hold on...</p>
+      <p className="text-gray-600 mb-4">We are fetching some amazing Details for you!</p>
+      <i className="fa-solid fa-face-laugh-beam text-yellow-400 text-2xl"></i>
+  </div>
+</div>;
 
   return (
     <div className="max-w-5xl mx-auto p-6">
