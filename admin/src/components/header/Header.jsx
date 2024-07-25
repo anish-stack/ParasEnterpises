@@ -46,7 +46,9 @@ const Header = () => {
             <li><Link to="/all-voucher" onClick={handletoggleBtn}> <i className="fa-brands fa-cc-discover me-1 "></i> Manage Voucher</Link></li>
             <li><Link to="/all-users" onClick={handletoggleBtn}> <i className="fa-solid fa-user me-1 "></i> All Users</Link></li>
             <li><Link to="/all-orders" onClick={handletoggleBtn}> <i className="fa-solid fa-truck-arrow-right me-1 "></i> Manage Orders</Link></li>
+            <div className="mb-5">
             <button className='logout'>Log Out <i className="fa-solid fa-right-from-bracket me-1 "></i></button>
+            </div>
 
           </ul>
         </div>
