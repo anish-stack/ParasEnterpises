@@ -12,6 +12,7 @@ const { createNews, DeleteNews, getAllNews, getSingleNews, UpdateNews } = requir
 const { createVideo, getAllVideos, updateVideo, deleteVideo } = require('../controllers/VideoControllers')
 const { createContact, GetContact, DeleteContact, PushAdminMessageContact } = require('../controllers/ContactController')
 const { CheckOut, paymentVerification, OrderByOrderId } = require('../controllers/OrderController')
+const { DashboardData } = require('../controllers/Dashboard')
 // user actions have done in this area
 router.post('/Create-User', register)
 router.post('/Login', login)
@@ -78,7 +79,9 @@ router.post('/Checkout',protect,CheckOut)
 router.post('/Payment-Verification',paymentVerification)
 router.get('/Order-Information/:orderId',OrderByOrderId)
 
+//Dashboard Data
 
+router.get('/Dashboard-Data',DashboardData)
 
 
 
