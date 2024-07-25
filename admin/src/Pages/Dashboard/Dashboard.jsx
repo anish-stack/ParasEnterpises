@@ -1,28 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bar, Pie } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js';
+import {Chart as ChartJS,CategoryScale,LinearScale,BarElement,ArcElement,Title,Tooltip,Legend} from 'chart.js';
 
 import './custom.css'
-// Register the components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale,LinearScale,BarElement,ArcElement,Title,Tooltip,Legend);
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -48,12 +30,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: 'Counts',
-        data: [
-          data.counts.categories,
-          data.counts.banners,
-          data.counts.news,
-          data.counts.orders
-        ],
+        data: [ data.counts.categories,data.counts.banners,data.counts.news,data.counts.orders],
         backgroundColor: [
           'rgba(54, 162, 235, 0.6)',
           'rgba(75, 192, 192, 0.6)',
@@ -100,7 +77,7 @@ const Dashboard = () => {
 
   return (
     <div className="container relative mt-4">
-     
+
       <div className="row">
         <div className="col-12 mb-4">
           <div className="card border-primary shadow-sm">
