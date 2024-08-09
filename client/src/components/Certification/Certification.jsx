@@ -4,7 +4,7 @@ import Heading from '../Heading/Heading';
 const Certification = () => {
     return (
         <div className="flex flex-col items-center py-10">
-                        <Heading level="1" className="text-blue-600">Our <span data-aos="fade-up" className='text-red-400'>Certifications</span></Heading>
+                        <Heading level="1" className="text-blue-600">Our <span data-aos="fade-up" className='text-blue-400'>Certifications</span></Heading>
 
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6"></h2>
             <div className="w-full md:max-w-7xl">

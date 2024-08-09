@@ -16,13 +16,13 @@ const Products = ({handleAddToCart}) => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-product');
+            const res = await axios.get('http://localhost:7000/api/v1/get-all-product');
             const reverseData = res.data.product
             // console.log(res.data.product)
             const filterIsLatestProduct = reverseData.filter((item) => item.isLatestProduct && item.isStockOut ===false)
             const main = filterIsLatestProduct.reverse()
             setProduct(main)
-            console.log(products)
+            // console.log(products)
         } catch (error) {
             console.error('There was an error fetching the products!', error);
         }
@@ -32,7 +32,7 @@ const Products = ({handleAddToCart}) => {
     }, [])
     return (
         <div>
-            <Heading level="1" className="text-blue-600">Latest <span data-aos="fade-up" className='text-red-400'>Products</span></Heading>
+            <Heading level="1" className="text-blue-600">Latest <span data-aos="fade-up" className='text-blue-400'>Products</span></Heading>
             <div className=" w-full md:max-w-7xl  mx-auto py-5 px-2 md:py-8">
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
                     {products && products.map(product => (
@@ -54,7 +54,7 @@ const Products = ({handleAddToCart}) => {
 
                                 <div className="md:flex justify-between gap-1 mb-2 py-3 mt-4 items-center">
                                     <Link to={'/Checkout'} className="bg-blue-500 block w-full text-xs md:w-auto md:truncate hover:bg-blue-700 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded">Buy Now</Link>
-                                    <Link to={`/Single-Product/${product._id}?&productName=${product.ProductName.replace(/\s+/g, '-')}`} className="bg-red-400 block w-full md:w-auto text-xs hover:bg-red-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded">Add to Cart <i className="fa-solid fa-cart-plus"></i> </Link>
+                                    <Link to={`/Single-Product/${product._id}?&productName=${product.ProductName.replace(/\s+/g, '-')}`} className="bg-green-400 block w-full md:w-auto text-xs hover:bg-green-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded">Add to Cart <i className="fa-solid fa-cart-plus"></i> </Link>
                                 </div>
                             </div>
                         </Link>

@@ -13,6 +13,8 @@ const { createVideo, getAllVideos, updateVideo, deleteVideo } = require('../cont
 const { createContact, GetContact, DeleteContact, PushAdminMessageContact } = require('../controllers/ContactController')
 const { CheckOut, paymentVerification, OrderByOrderId } = require('../controllers/OrderController')
 const { DashboardData } = require('../controllers/Dashboard')
+const { JoinNewsLetter, getAllSubscriptions, updateSubscription, deleteSubscription, sendEmailsInBatches, getAllTemplates, editTemplate, deleteTemplate, CreateTemplate } = require('../controllers/NewsLetterController')
+const { UploadCompanyLogoImage, getAllCompanyLogos, deleteCompanyLogo } = require('../controllers/CompnayLogo')
 // user actions have done in this area
 router.post('/Create-User', register)
 router.post('/Login', login)
@@ -58,6 +60,7 @@ router.delete('/delete-product/:id', deleteProduct);
 
 // -- Main  banner --- 
 router.post("/create-main-banner", singleUploadImage, createBanner);
+
 router.get("/get-all-main-banner", getAllBanner);
 router.delete('/delete-main-banner/:id', deleteBanner);
 router.put('/update-main-banner/:id', singleUploadImage, updateBanner);
@@ -75,17 +78,30 @@ router.delete('/delete-contact/:id', DeleteContact);
 router.post('/push-Message/:id', PushAdminMessageContact);
 
 // -- Orders --
-router.post('/Checkout',protect,CheckOut)
-router.post('/Payment-Verification',paymentVerification)
-router.get('/Order-Information/:orderId',OrderByOrderId)
+router.post('/Checkout', protect, CheckOut)
+router.post('/Payment-Verification', paymentVerification)
+router.get('/Order-Information/:orderId', OrderByOrderId)
 
 //Dashboard Data
 
-router.get('/Dashboard-Data',DashboardData)
+router.get('/Dashboard-Data', DashboardData)
 
+//New Letter 
+router.post('/join-newsletter', JoinNewsLetter);
+router.get('/get-all-subscribe-newsletter-email', getAllSubscriptions);
+router.put('/update-newsletter-email/:id', updateSubscription);
+router.delete('/delete-newsletter-email/:id', deleteSubscription);
+router.post('/send-emails-in-batches', sendEmailsInBatches);
+router.post('/add-template', CreateTemplate);
 
+router.get('/get-all-templates', getAllTemplates);
+router.put('/edit-template/:id', editTemplate);
+router.delete('/delete-template/:id', deleteTemplate);
 
-
+//Company Logo
+router.post("/upload-logo-of-Company", singleUploadImage, UploadCompanyLogoImage);
+router.get('/get-all-company-logos', getAllCompanyLogos);
+router.delete('/delete-company-logo/:public_id', deleteCompanyLogo);
 
 // -- Tags --
 router.post("/createTag", CreateTag)

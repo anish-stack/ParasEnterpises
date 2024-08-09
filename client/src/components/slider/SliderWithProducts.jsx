@@ -32,7 +32,7 @@ const SliderWithProducts = () => {
     return (
         <div className='w-full bg-blue-500 p-2 h-[75vh]'>
             <div className='main-div flex flex-col lg:flex-row h-full lg:h-auto'>
-                <div className='w-full lg:w-3/4 h-full'>
+                <div className='w-full  h-full'>
                     <Swiper
                         slidesPerView={1}
                         spaceBetween={30}
@@ -61,9 +61,9 @@ const SliderWithProducts = () => {
                         ))}
                     </Swiper>
                 </div>
-                <div className='w-full hidden lg:w-1/4 lg:block'>
+                {/* <div className='w-full hidden lg:w-1/4 lg:block'>
                     <Category />
-                </div>
+                </div> */}
             </div>
         </div>
     );

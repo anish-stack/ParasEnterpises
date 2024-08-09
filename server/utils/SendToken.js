@@ -6,7 +6,7 @@ const sendToken = async (user, res, status) => {
         const token = jwt.sign({ id: user }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRES_TIME
         })
-        
+
         const options = {
             expires: new Date(
                 Date.now() + process.env.COOKIE_EXPIRES_TIME * 24 * 60 * 60 * 1000

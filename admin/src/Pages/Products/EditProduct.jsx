@@ -98,7 +98,7 @@ const EditProduct = () => {
 
     const fetchCategories = useCallback(async () => {
         try {
-            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-categories');
+            const res = await axios.get('http://localhost:7000/api/v1/get-all-categories');
             setCategories(res.data.categories);
         } catch (error) {
             console.error('There was an error fetching the categories!', error);
@@ -107,7 +107,7 @@ const EditProduct = () => {
 
     const fetchTags = useCallback(async () => {
         try {
-            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/getAllTag');
+            const res = await axios.get('http://localhost:7000/api/v1/getAllTag');
             setTags(res.data.data);
         } catch (error) {
             console.error('There was an error fetching the tags!', error);
@@ -116,7 +116,7 @@ const EditProduct = () => {
 
     const fetchSingleProduct = useCallback(async () => {
         try {
-            const res = await axios.get(`https://parasenterpises.onrender.com/api/v1/get-single-product/${id}`);
+            const res = await axios.get(`http://localhost:7000/api/v1/get-single-product/${id}`);
             const data = res.data.product;
 
             setFormData({
@@ -182,7 +182,7 @@ const EditProduct = () => {
                 formDataToSend.append('DataSheet', formData.DataSheet);
             }
 
-            const response = await axios.put(`https://parasenterpises.onrender.com/api/v1/update-product/${id}`, formDataToSend, {
+            const response = await axios.put(`http://localhost:7000/api/v1/update-product/${id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

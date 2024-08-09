@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route,Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import Header from '../header/Header'
 import Dashboard from '../../Pages/Dashboard/Dashboard'
@@ -29,67 +29,81 @@ import EditNews from '../../Pages/News/EditNews'
 import AllVideos from '../../Pages/Videos/Video'
 import AddVideo from '../../Pages/Videos/AddVideo'
 import AllContacts from '../../Pages/contacts/AllContacts'
+import AllPartners from '../../Pages/Partners/AllPartners'
+import AllNewsSubscribedEmail from '../../Pages/NewsLetter/AllNewsSubscribedEmail'
+import MessageTemplate from '../../Pages/NewsLetter/MessageTemplete'
+import Addtemplate from '../../Pages/NewsLetter/Addtemplate'
+import EditTemplate from '../../Pages/NewsLetter/EditTemplate'
 
 const Home = () => {
   return (
     <>
-    
-      <Header/>
+
+      <Header />
       <div className="rightside">
         <Routes>
-          <Route path={"/dashboard"} element={<Dashboard/>}/>
+          <Route path={"/dashboard"} element={<Dashboard />} />
 
           {/* Category --  */}
-          <Route path={"/all-category"} element={<AllCategory/>}/>
-          <Route path={"/add-category"} element={<AddCategory/>}/>
-          <Route path={"/edit-category/:id"} element={<EditCategory/>}/>
+          <Route path={"/all-category"} element={<AllCategory />} />
+          <Route path={"/add-category"} element={<AddCategory />} />
+          <Route path={"/edit-category/:id"} element={<EditCategory />} />
 
           {/* Product --  */}
-          <Route path={"/all-products"} element={<AllProduct/>}/>
-          <Route path={"/add-product"} element={<AddProduct/>}/>
-          <Route path={"/edit-product/:id"} element={<EditProduct/>}/>
+          <Route path={"/all-products"} element={<AllProduct />} />
+          <Route path={"/add-product"} element={<AddProduct />} />
+          <Route path={"/edit-product/:id"} element={<EditProduct />} />
 
-          
+          {/* partners */}
+          <Route path={"/all-partners"} element={<AllPartners />} />
+          {/* Newsleterrs */}
+          <Route path={"/all-newsletters"} element={<AllNewsSubscribedEmail />} />
+          <Route path={"/Send-Mails"} element={<MessageTemplate />} />
+          <Route path={"/add-new-template"} element={<Addtemplate />} />
+          <Route path={"/edit-template/:id"} element={<EditTemplate />} />
+
+
+
           {/* --- Orders --- */}
-          <Route path={"/all-users"} element={<AllUsers/>}/>
+          <Route path={"/all-users"} element={<AllUsers />} />
 
           {/* --- Vouchers --- */}
-          <Route path={"/all-voucher"} element={<AllVoucher/>}/>   {/* // All Vouchers */}
-          <Route path={"/add-voucher"} element={<CreateVoucher/>}/>
+          <Route path={"/all-voucher"} element={<AllVoucher />} />   {/* // All Vouchers */}
+          <Route path={"/add-voucher"} element={<CreateVoucher />} />
 
           {/* --- Tags --- */}
-          <Route path={"/all-tags"} element={<AllTags/>}/>
-          <Route path={"/add-tag"} element={<AddTag/>}/>
-          <Route path={"/edit-tag/:id"} element={<EditTag/>}/>
+          <Route path={"/all-tags"} element={<AllTags />} />
+          <Route path={"/add-tag"} element={<AddTag />} />
+          <Route path={"/edit-tag/:id"} element={<EditTag />} />
 
           {/* --- Banners --- */}
-          <Route path={"/all-banners"} element={<AllBanner/>}/>
-          <Route path={"/add-banner"} element={<AddBanner/>}/>
-          <Route path={"/edit-banner/:id"} element={<EditBanner/>}/>
+          <Route path={"/all-banners"} element={<AllBanner />} />
+          <Route path={"/add-banner"} element={<AddBanner />} />
+          <Route path={"/edit-banner/:id"} element={<EditBanner />} />
 
           {/* --- Banners --- */}
-          <Route path={"/all-shop-banners"} element={<AllShopBanner/>}/>
-          <Route path={"/add-shop-banner"} element={<AddShopBanner/>}/>
-          <Route path={"/edit-shop-banner/:id"} element={<EditShopBanner/>}/>
+          <Route path={"/all-shop-banners"} element={<AllShopBanner />} />
+          <Route path={"/add-shop-banner"} element={<AddShopBanner />} />
+          <Route path={"/edit-shop-banner/:id"} element={<EditShopBanner />} />
 
           {/* --- Orders --- */}
-          <Route path={"/all-orders"} element={<AllOrder/>}/>
-          <Route path={"/edit-order/:id"} element={<EditOrder/>}/>
-         {/* --- News --- */}
-         <Route path={"/all-news"} element={<AllNews/>}/>
-         <Route path={"/add-news"} element={<AddNews/>}/>
-         <Route path={"/edit-news/:id"} element={<EditNews/>}/>
-      
-         {/* --- Videos --- */}
-         <Route path={"/all-Videos"} element={<AllVideos/>}/>
-         <Route path={"/add-video"} element={<AddVideo/>}/>
-         <Route path={"/edit-news/:id"} element={<EditNews/>}/>
-          
-{/* --- Contacts --- */}
-<Route path={"/all-contact"} element={<AllContacts />}/>
+          <Route path={"/all-orders"} element={<AllOrder />} />
+          <Route path={"/edit-order/:id"} element={<EditOrder />} />
+          {/* --- News --- */}
+          <Route path={"/all-news"} element={<AllNews />} />
+          <Route path={"/add-news"} element={<AddNews />} />
+          <Route path={"/edit-news/:id"} element={<EditNews />} />
+
+          {/* --- Videos --- */}
+          <Route path={"/all-Videos"} element={<AllVideos />} />
+          <Route path={"/add-video"} element={<AddVideo />} />
+          <Route path={"/edit-news/:id"} element={<EditNews />} />
+
+          {/* --- Contacts --- */}
+          <Route path={"/all-contact"} element={<AllContacts />} />
 
 
-{/* all-shop */}
+          {/* all-shop */}
 
         </Routes>
       </div>

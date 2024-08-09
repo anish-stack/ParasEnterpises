@@ -87,11 +87,13 @@ const Header = ({ CartCount }) => {
           </div>
           <nav className='hidden lg:flex'>
             <ul className='flex items-center justify-between gap-6'>
+              <li><Link to="/About" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">About-us</Link></li>
+
               <li className="relative group">
                 <Link to="#" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                   Our Products <i className="fa-solid fa-arrow-down h-5 w-5 ml-2 inline-block"></i>
                 </Link>
-                <div className="dropdowns shadow-md bg-white px-5 w-full absolute z-30 hidden group-hover:block">
+                <div className="dropdowns shadow-md bg-white p-2 w-[14rem]  absolute z-30 hidden group-hover:block">
                   <ul className="">
                     {Categories.map((item, index) => (
                       <li key={index}>
@@ -103,6 +105,7 @@ const Header = ({ CartCount }) => {
                   </ul>
                 </div>
               </li>
+
               <li><Link to="/offers" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Offers</Link></li>
               <li><Link to="/certifications" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Certifications</Link></li>
               <li><Link to="/news" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">News</Link></li>

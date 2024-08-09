@@ -43,7 +43,7 @@ const Contact = () => {
         <div className="py-10 bg-gray-100">
        
             <div className="max-w-7xl mx-auto px-4">
-                <Heading level="1" className="text-blue-600">Contact <span data-aos="fade-up" className='text-red-400'>Us</span></Heading>
+                <Heading level="1" className="text-blue-600">Contact <span data-aos="fade-up" className='text-blue-400'>Us</span></Heading>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Address */}
                     <div data-aos="flip-up" className="bg-white shadow-md rounded-lg p-6">

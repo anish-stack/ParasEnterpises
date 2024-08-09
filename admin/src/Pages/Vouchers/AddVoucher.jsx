@@ -35,7 +35,7 @@ const CreateVoucher = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://parasenterpises.onrender.com/api/v1/createVouncher', formData);
+            const response = await axios.post('http://localhost:7000/api/v1/createVouncher', formData);
             console.log(response.data);
             toast.success('Coupon Code Generated Successfully');
             setIsLoading(false);

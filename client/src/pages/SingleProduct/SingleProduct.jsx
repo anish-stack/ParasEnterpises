@@ -214,7 +214,7 @@ const SingleProduct = ({ handleAddToCart }) => {
                                             </Link>
                                             <Link
                                                 to={'/Cart'}
-                                                className="bg-red-400 block w-full md:w-auto text-xs hover:bg-red-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded"
+                                                className="bg-green-400 block w-full md:w-auto text-xs hover:bg-green-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded"
                                             >
                                                 Add to Cart <i className="fa-solid fa-cart-plus"></i>
                                             </Link>

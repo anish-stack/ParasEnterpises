@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className='min-h-screen'>
       <SliderWithProducts/>
-      <Video/>
+      {/* <Video/> */}
       <Products/>
       <Certification/>
       <AutoMotive/>

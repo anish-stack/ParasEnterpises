@@ -7,7 +7,7 @@ const AllUsers = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get('https://parasenterpises.onrender.com/api/v1/AllUser');
+                const res = await axios.get('http://localhost:7000/api/v1/AllUser');
                 setUsers(res.data.data);
             } catch (error) {
                 console.error('Error fetching users:', error);

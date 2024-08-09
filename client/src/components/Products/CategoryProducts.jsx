@@ -107,7 +107,7 @@ const CategoryProducts = () => {
                                     <Link to={'/Checkout'} className="bg-blue-500 block w-full text-xs md:w-auto md:truncate hover:bg-blue-700 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded">
                                         Buy Now
                                     </Link>
-                                    <Link to={`/Single-Product/${product._id}?&productName=${product.ProductName.replace(/\s+/g, '-')}`} className="bg-red-400 block w-full md:w-auto text-xs hover:bg-red-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded">
+                                    <Link to={`/Single-Product/${product._id}?&productName=${product.ProductName.replace(/\s+/g, '-')}`} className="bg-green-400 block w-full md:w-auto text-xs hover:bg-green-500 text-white mb-3 md:mb-0 font-bold py-2 px-4 rounded">
                                         Add to Cart <i className="fa-solid fa-cart-plus"></i>
                                     </Link>
                                 </div>
