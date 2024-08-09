@@ -16,7 +16,7 @@ const AutoMotive = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/api/v1/get-all-product');
+            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-product');
             const reverseData = res.data.product
 
             const main = reverseData.reverse()

@@ -13,7 +13,7 @@ const Addtemplate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:7000/api/v1/add-template', {
+            const res = await axios.post('https://parasenterpises.onrender.com/api/v1/add-template', {
                 subject,
                 message:content,
             });

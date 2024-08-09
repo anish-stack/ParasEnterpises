@@ -14,7 +14,7 @@ const AllProduct = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('http://localhost:7000/api/v1/get-all-product');
+            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-product');
             const reverseData = res.data.product
             console.log(res.data.product)
             const main = reverseData.reverse()
@@ -49,7 +49,7 @@ const AllProduct = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`http://localhost:7000/api/v1/delete-product/${id}`);
+                    const res = await axios.delete(`https://parasenterpises.onrender.com/api/v1/delete-product/${id}`);
                     console.log(res.data);
                     toast.success("Product Deleted Successfully");
                     handleFetch();
