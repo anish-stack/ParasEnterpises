@@ -18,7 +18,7 @@ const AddTag = () => {
 
     const fetchTags = async () => {
         try {
-            const response = await axios.get('https://parasenterpises.onrender.com/api/v1/getAllTag');
+            const response = await axios.get('https://www.api.parasenterprises.com/api/v1/getAllTag');
             setTags(response.data.data); // Assuming tags are returned in response.data.data
         } catch (error) {
             console.error('Error fetching tags:', error);
@@ -46,7 +46,7 @@ const AddTag = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://parasenterpises.onrender.com/api/v1/createTag', formData);
+            const response = await axios.post('https://www.api.parasenterprises.com/api/v1/createTag', formData);
             setIsLoading(false);
             toast.success("Tag Added Successfully !!");
             // Optionally, redirect or reset the form here

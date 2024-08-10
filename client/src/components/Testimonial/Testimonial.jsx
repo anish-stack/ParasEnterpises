@@ -7,7 +7,7 @@ function Testimonial() {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-company-logos');
+            const res = await axios.get('https://www.api.parasenterprises.com/api/v1/get-all-company-logos');
             // Update the state with the fetched data
             setLogos(res.data.data || []);
         } catch (error) {

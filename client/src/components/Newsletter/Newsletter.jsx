@@ -9,7 +9,7 @@ const Newsletter = () => {
   const handleJoin = async (e) => {
     e.preventDefault(); // Prevent the default form submission
     try {
-      const res = await axios.post('https://parasenterpises.onrender.com/api/v1/join-newsletter', { email });
+      const res = await axios.post('https://www.api.parasenterprises.com/api/v1/join-newsletter', { email });
       toast.success('Subscribed successfully!');
       setEmail(''); // Clear the input field
     } catch (error) {

@@ -14,7 +14,7 @@ const AllShopBanner = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-sale-banner');
+            const res = await axios.get('https://www.api.parasenterprises.com/api/v1/get-all-sale-banner');
             const reverseData = res.data.data
             const main = reverseData.reverse()
             setBanners(main)
@@ -48,7 +48,7 @@ const AllShopBanner = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`https://parasenterpises.onrender.com/api/v1/delete-sale-banner/${id}`);
+                    const res = await axios.delete(`https://www.api.parasenterprises.com/api/v1/delete-sale-banner/${id}`);
                     console.log(res.data);
                     toast.success("Banner Deleted Successfully");
                     handleFetch();
