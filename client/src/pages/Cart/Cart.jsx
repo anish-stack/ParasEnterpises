@@ -24,7 +24,7 @@ const Cart = ({ handleUpdateQuantity, handleRemove }) => {
     useEffect(() => {
         const fetchVouchers = async () => {
             try {
-                const response = await axios.get('https://parasenterpises.onrender.com/api/v1/getAllVouncher');
+                const response = await axios.get('https://www.api.parasenterprises.com/api/v1/getAllVouncher');
                 setVouchers(response.data.data);
             } catch (error) {
                 console.error("Error fetching vouchers:", error);

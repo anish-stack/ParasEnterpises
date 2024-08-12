@@ -12,7 +12,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://parasenterpises.onrender.com/api/v1/Dashboard-Data');
+        const response = await axios.get('https://www.api.parasenterprises.com/api/v1/Dashboard-Data');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);

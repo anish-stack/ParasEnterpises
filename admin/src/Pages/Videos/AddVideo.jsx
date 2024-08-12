@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const AddVideo = () => {
     const [videoUrl, setVideoUrl] = useState('');
     const [isActive, setIsActive] = useState(true);
-    const BackendUrl = "https://parasenterpises.onrender.com/api/v1"
+    const BackendUrl = "https://www.api.parasenterprises.com/api/v1"
 
     const handleSubmit = async (e) => {
         e.preventDefault();

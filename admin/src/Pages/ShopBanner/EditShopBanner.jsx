@@ -42,7 +42,7 @@ const EditShopBanner = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get(`https://parasenterpises.onrender.com/api/v1/get-all-sale-banner`);
+            const res = await axios.get(`https://www.api.parasenterprises.com/api/v1/get-all-sale-banner`);
             const category = res.data.data;
             const filterData = category.filter((item) => item._id === id);
             if (filterData.length > 0) {
@@ -71,7 +71,7 @@ const EditShopBanner = () => {
         data.append('active', formData.active);
 
         try {
-            const response = await axios.put(`https://parasenterpises.onrender.com/api/v1/update-sale-banner/${id}`, data);
+            const response = await axios.put(`https://www.api.parasenterprises.com/api/v1/update-sale-banner/${id}`, data);
             toast.success("Banner Updated Successfully!");
             setBtnLoading(false);
             window.location.href = '/all-shop-banners';

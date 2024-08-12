@@ -15,7 +15,7 @@ const NewsSection = () => {
 
     const handleFetch = async () => {
         try {
-            const res = await axios.get('https://parasenterpises.onrender.com/api/v1/get-all-news');
+            const res = await axios.get('https://www.api.parasenterprises.com/api/v1/get-all-news');
             const reverseData = res.data;
             const main = reverseData.reverse();
             setNews(main);
